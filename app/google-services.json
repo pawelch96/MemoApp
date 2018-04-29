@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "280151740945",
+    "firebase_url": "https://testowy-d269d.firebaseio.com",
+    "project_id": "testowy-d269d",
+    "storage_bucket": "testowy-d269d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280151740945:android:280579d35f56d50e",
+        "android_client_info": {
+          "package_name": "com.user.memsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "280151740945-2juklndirdcvhkseg5uesj280ngj7fbg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.user.memsapp",
+            "certificate_hash": "52e1515baec495da7425faf1a6888e47ecc4ce77"
+          }
+        },
+        {
+          "client_id": "280151740945-darjcoku3k8qpknjef68d8vjdm26keng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2AuemyPHcdsKGzB3e8C30VQKb69eM9gw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "280151740945-darjcoku3k8qpknjef68d8vjdm26keng.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MemoApp</string>
+    <string name="add_camera">Aparat</string>
+    <string name="add_gallery">Galeria</string>
+    <string name="search">Szukaj</string>
+    <string name="add">Dodaj</string>
+    <string name="settings">Ustawienia</string>
+</resources>
