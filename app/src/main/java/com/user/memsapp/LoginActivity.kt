@@ -1,5 +1,6 @@
 package com.user.memsapp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
@@ -22,9 +23,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         supportActionBar?.hide()
         login_button.setOnClickListener {
-            //logIn()
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+            logIn()
         }
 
         sign_up_button.setOnClickListener {
@@ -51,24 +50,27 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun signIn (email : String, password : String) {
-        var progressBar : ProgressBar = this.progress_bar
-        constraint_layout.visibility = View.VISIBLE
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setTitle(getString(R.string.loading))
+        progressDialog.show()
         sign_up_button.isEnabled.not()
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#965C9C"),android.graphics.PorterDuff.Mode.MULTIPLY)
-        progressBar.visibility = View.VISIBLE
+
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener<AuthResult> { task ->
             if (task.isSuccessful) {
-                val user = mAuth!!.getCurrentUser()
-                Toast.makeText(applicationContext, " Witaj " + email + "! ", Toast.LENGTH_LONG).show()
+                val user = mAuth!!.currentUser
+                progressDialog.dismiss()
+                Toast.makeText(applicationContext, " Witaj " + email + "! ", Toast.LENGTH_SHORT).show()
+                val userId = user!!.uid
                 val intent = Intent(this, HomeActivity::class.java)
-                intent.putExtra("email", user!!.email)
+                intent.putExtra("uid", userId)
+                intent.putExtra("email", email)
+
                 startActivity(intent)
 
             } else {
+                progressDialog.dismiss()
                 Toast.makeText(applicationContext, "Błąd: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-                progressBar.visibility = View.GONE
-                constraint_layout.visibility = View.GONE
-                sign_up_button.setEnabled(true)
+                sign_up_button.isEnabled
             }
         })
     }

@@ -4,5 +4,6 @@
     <string name="add_gallery">Galeria</string>
     <string name="search">Szukaj</string>
     <string name="add">Dodaj</string>
+    <string name="loading">Ładowanie...</string>
     <string name="settings">Ustawienia</string>
 </resources>

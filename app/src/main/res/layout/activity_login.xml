@@ -55,7 +55,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
-            android:background="@drawable/login_field"
+            android:background="@drawable/text_bg"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -79,7 +79,6 @@
 
                 <EditText
                     android:id="@+id/login_text"
-                    style="@style/Widget.AppCompat.EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -89,7 +88,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@android:color/transparent"
                     android:ems="10"
-                    android:hint="email"
+                    android:hint="Email"
                     android:inputType="textEmailAddress"
                     android:singleLine="false"
                     android:textColor="#C0C0C0"
@@ -109,13 +108,8 @@
             android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/password_field">
-            <!--<ProgressBar-->
-                <!--android:id="@+id/progress_bar"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:scrollbarStyle="insideOverlay"-->
-                <!--android:visibility="gone"/>-->
+            android:background="@drawable/text_bg">
+
             <LinearLayout
                 android:layout_width="50dp"
                 android:layout_height="64dp"
@@ -147,7 +141,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@android:color/transparent"
                     android:ems="10"
-                    android:hint="hasło"
+                    android:hint="Hasło"
                     android:inputType="textPassword"
                     android:singleLine="false"
                     android:textColor="#C0C0C0"
@@ -169,15 +163,7 @@
             android:text="Zapomniałeś hasła?"
             android:background="@android:color/transparent"
             style="@style/buttonStyle"/>
-        <!--<TextView-->
-            <!--android:id="@+id/forgotten_password_text"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginTop="16dp"-->
-            <!--android:gravity="center"-->
-            <!--android:text="Zapomniałeś hasła?"-->
-            <!--android:textColor="#C0C0C0" />-->
+
     </LinearLayout>
 
     <LinearLayout
@@ -192,7 +178,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginTop="14dp"
-            android:background="@drawable/sign_in"
+            android:background="@drawable/btn_bg"
             android:text="Zaloguj się"
             android:textColor="#fff" />
     </LinearLayout>
@@ -210,17 +196,6 @@
             android:text="Zarejestruj się"
             android:background="@android:color/transparent"
             style="@style/buttonStyle"/>
-        <!--<TextView-->
-            <!--android:id="@+id/sign_up_text"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Nie masz konta? Zarejestruj się!"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_marginTop="30dp"-->
-            <!--android:textColor="#C0C0C0"-->
-            <!--android:clickable="true"-->
-            <!--android:focusable="true"-->
-            <!--android:onClick="onClick"/>-->
+
     </LinearLayout>
 </LinearLayout>

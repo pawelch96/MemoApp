@@ -1,11 +1,13 @@
 package com.user.memsapp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity() {
@@ -51,15 +53,28 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     fun signUp(email : String, password : String) {
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setTitle(getString(R.string.loading))
+        progressDialog.show()
         mAuth!!.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         val user = mAuth!!.currentUser
-                        Toast.makeText(applicationContext, " Witaj " + email + "! ", Toast.LENGTH_LONG).show()
-                        val intent = Intent(this, HomeActivity::class.java)
-                        intent.putExtra("email", user!!.email)
-                        startActivity(intent)
+                        val ref = FirebaseDatabase.getInstance().getReference("users")
+                        val name = name_text.text.toString()
+                        val newUser = User(user!!.uid, email, name)
+                        ref.child(user!!.uid).setValue(newUser).addOnCompleteListener {
+                            progressDialog.dismiss()
+                            Toast.makeText(applicationContext, " Witaj " + email + "! ", Toast.LENGTH_SHORT).show()
+                            val userId = user!!.uid
+                            val intent = Intent(this, HomeActivity::class.java)
+                            intent.putExtra("email", user!!.email)
+                            intent.putExtra("uid", userId)
+                            intent.putExtra("name", name)
+                            startActivity(intent)
+                        }
                     } else {
+                        progressDialog.dismiss()
                         Toast.makeText(applicationContext, "Błąd: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                     }
                 }
