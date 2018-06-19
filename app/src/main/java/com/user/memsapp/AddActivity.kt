@@ -17,8 +17,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_add.*
 import java.io.IOException
+import java.net.URL
 import java.util.*
 
 class AddActivity : AppCompatActivity() {
@@ -83,7 +85,11 @@ class AddActivity : AppCompatActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-            date = "" + mDay + "." + mMonth + "." + mYear
+            date = "" + mYear
+            if (mMonth < 10) date += ".0" + mMonth
+            else date += "." + mMonth
+            if (mDay < 10) date += ".0" + mDay
+            else date += "." + mDay
             date_text.setText("" + mDay + "." + mMonth + "." + mYear)
         }, year, month, day)
         datePickerDialog.show()
@@ -99,34 +105,47 @@ class AddActivity : AppCompatActivity() {
 
     private fun validateAndUpload() {
         if (isValid(title_text) && isValid(place_text) && isValid(description_text)) {
-            val event = Event(title_text.text.toString(), description_text.text.toString(), null, date, place_text.text.toString() )
-
+            var event = Event(title_text.text.toString(), description_text.text.toString(), date, place_text.text.toString(), "", "")
             uploadEvent(event)
         }
     }
 
     private fun uploadEvent(event : Event) {
+        val uuid = UUID.randomUUID().toString()
+        val imageRef = storageReference!!.child("users/"+ uid + "/events/" + uuid)
+        val ref = FirebaseDatabase.getInstance().getReference("users/" + uid + "/events")
+        var url : String? = null
         if (filePath!=null) {
             val progressDialog = ProgressDialog(this)
             progressDialog.setTitle(getString(R.string.loading))
             progressDialog.show()
-            val imageRef = storageReference!!.child("users/"+ uid + "/events/" + event.title.toString())
-            imageRef.putFile(filePath!!).addOnProgressListener { taskSnapshot ->
+            imageRef!!.putFile(filePath!!).addOnProgressListener { taskSnapshot ->
                 val progress = 100.0 * taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
                 progressDialog.setMessage("" + progress.toInt() + "%")
+
             }.addOnFailureListener {
                 progressDialog.dismiss()
                 Toast.makeText(this, "Dodawanie zdjęcia nie powiodło się!", Toast.LENGTH_LONG).show()
+            }.addOnSuccessListener { taskSnapshot ->
+
+                    url = taskSnapshot.downloadUrl.toString()
+                    event.uuid = uuid
+                    event.url = url
+                    ref.child(uuid).setValue(event).addOnSuccessListener {
+                        progressDialog.dismiss()
+                        Toast.makeText(this, "Dodano wydarzenie.", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, HomeActivity::class.java)
+                        intent.putExtra("uid", uid)
+                        startActivity(intent)
+
+                    }.addOnFailureListener {
+                        Toast.makeText(this, "Dodawanie nie powiodło się!", Toast.LENGTH_LONG).show()
+                    }
             }
-            val ref = FirebaseDatabase.getInstance().getReference("users/" + uid + "/events")
-            ref.child(event.title).setValue(event).addOnSuccessListener {
-                progressDialog.dismiss()
-                Toast.makeText(this, "Dodano wydarzenie.", Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener {
-                Toast.makeText(this, "Dodawanie nie powiodło się!", Toast.LENGTH_LONG).show()
-            }
+
         } else {
             Toast.makeText(this, "Dodawanie zdjęcia nie powiodło się!", Toast.LENGTH_LONG).show()
+                }
         }
     }
-}
+
